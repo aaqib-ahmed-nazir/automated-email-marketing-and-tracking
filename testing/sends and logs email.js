@@ -1,18 +1,14 @@
-// Function to send an email with a tracking pixel
 function sendEmail(recipient, subject, body, trackingId) {
   try {
-    // Replace with your actual deployed Google Apps Script URL for the tracking pixel
     var trackingPixelUrl = "https://script.google.com/macros/s/AKfycbz7_yJx7GKiDcMWIxutR_bpPpsjwbGxHAZ4S-2wHP1m7pDUwwU5Ot5rl-cf1EVkLwTM/exec?trackingId=" + trackingId;
 
-    // Add the tracking pixel to the HTML body (invisible 1x1 pixel)
     var bodyWithTracking = body + '<img src="' + trackingPixelUrl + '" width="1" height="1" style="display:none;" />';
 
-    // Send the email with both plain text and HTML body
     MailApp.sendEmail({
       to: recipient,
       subject: subject,
-      body: body,  // Plain text body for the email client
-      htmlBody: bodyWithTracking  // HTML body to render the tracking pixel
+      body: body,
+      htmlBody: bodyWithTracking
     });
 
     return true;
@@ -22,12 +18,10 @@ function sendEmail(recipient, subject, body, trackingId) {
   }
 }
 
-// Function to log email details in a Google Sheet
 function logEmail(firstName, lastName, email, subject, emailSent, trackingId) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
-    // Log email details in the sheet
     var dateSent = new Date();
     sheet.appendRow([firstName, lastName, email, subject, dateSent, emailSent ? "Yes" : "No", trackingId, "No"]);
 
@@ -37,17 +31,12 @@ function logEmail(firstName, lastName, email, subject, emailSent, trackingId) {
   }
 }
 
-// Function to send email with tracking and log details
 function sendEmailWithTracking(firstName, lastName, email, subject, body) {
-  // Generate a unique Tracking ID for this email
   var trackingId = Utilities.getUuid();
 
-  // Send the email with the tracking ID
   var emailSent = sendEmail(email, subject, body, trackingId);
 
-  // Log and return the result
   if (emailSent) {
-    // Log the email details in the Google Sheet
     logEmail(firstName, lastName, email, subject, true, trackingId);
     return ContentService.createTextOutput("Email sent successfully!");
   } else {
@@ -55,10 +44,8 @@ function sendEmailWithTracking(firstName, lastName, email, subject, body) {
   }
 }
 
-// Web app endpoint to handle email sending and logging (POST request)
 function doPost(e) {
   try {
-    // Parse parameters from the POST request
     var params = JSON.parse(e.postData.contents);
 
     var firstName = params.first_name;
@@ -67,7 +54,6 @@ function doPost(e) {
     var subject = params.subject;
     var body = params.body;
 
-    // Send the email with tracking and log the details
     return sendEmailWithTracking(firstName, lastName, email, subject, body);
   } catch (error) {
     Logger.log("Error in doPost: " + error.message);
@@ -75,11 +61,9 @@ function doPost(e) {
   }
 }
 
-// Web app endpoint for tracking pixel (GET request)
 function doGet(e) {
   var trackingId = e.parameter.trackingId;
   Logger.log("Tracking Pixel Loaded with ID: " + trackingId);
 
-  // Return a 1x1 pixel (placeholder content for simplicity)
   return ContentService.createTextOutput("1x1 pixel image here").setMimeType(ContentService.MimeType.PNG);
 }
