@@ -6,12 +6,11 @@ function doPost(e) {
     var subject = e.parameter.subject;
     var body = e.parameter.body;
 
-    // Send the email via Gmail
     MailApp.sendEmail({
       to: email,
       subject: subject,
       body: body,
-      htmlBody: body  // Send HTML content as well
+      htmlBody: body
     });
 
     return ContentService.createTextOutput("Success")
