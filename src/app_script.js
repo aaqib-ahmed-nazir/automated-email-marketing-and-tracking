@@ -2,55 +2,77 @@ function sendEmails() {
   /*
       - Parameters:
         - None
-      
-      - Returns: 
-        - None
-      
-      - Description:
-        - This function sends emails to the recipients listed in the Google Sheet.
-  */
 
+      - Returns:
+        - None
+
+      - Description:
+        - This function sends emails to the recipients in the Google Sheet.
+        - It rotates through the available aliases to send emails.
+        - It also appends a tracking pixel to the email content.
+        - It updates the email status in the Google Sheet.
+  */
   var id = SpreadsheetApp.getActiveSpreadsheet().getId();
   var sheet = SpreadsheetApp.openById(id).getActiveSheet();
   var data = sheet.getDataRange().getValues();
 
-  for (var i = 1; i <= 2 && i < data.length; i++) {
+  var aliases = GmailApp.getAliases(); // Get all aliases
+  if (aliases.length === 0) {
+    Logger.log("No aliases available.");
+    return;
+  }
+
+  var aliasCount = aliases.length;
+
+  for (var i = 1; i < data.length; i++) {
     var row = data[i];
     var email = row[0];
     var subject = row[1];
     var emailContent = row[2];
-    var openTrackingCell = sheet.getRange(i + 1, 5);
-    var lastSentCell = sheet.getRange(i + 1, 4);
-    var openAmountCell = sheet.getRange(i + 1, 7);
+    var openTrackingCell = sheet.getRange(i + 1, 5); // Open Email Tracking
+    var lastSentCell = sheet.getRange(i + 1, 4); // Last Sent
+    var openAmountCell = sheet.getRange(i + 1, 7); // Open Amount Column
 
-    var trackingPixelUrl = "https://script.google.com/macros/s/AKfycbzdO2x6sX_gdQ2bEkIDlKQzdX9Z4LvNbLg-qCZsT_pG1GIyj7oht3Ow0LYIlcw-TJZL/exec?email=" + encodeURIComponent(email);
+    // Rotate through aliases
+    var aliasToUse = aliases[i % aliasCount];
 
-    var emailBody = emailContent + 
+    var trackingPixelUrl =
+      "https://script.google.com/macros/s/AKfycbzdO2x6sX_gdQ2bEkIDlKQzdX9Z4LvNbLg-qCZsT_pG1GIyj7oht3Ow0LYIlcw-TJZL/exec?email=" +
+      encodeURIComponent(email);
+
+    var emailBody =
+      emailContent +
       `<br><img class="ajT" src="${trackingPixelUrl}" width="1" height="1" style="display:none;">`;
 
     if (MailApp.getRemainingDailyQuota() > 0) {
       try {
-        GmailApp.sendEmail(email, subject, '', {
+        GmailApp.sendEmail(email, subject, "", {
           htmlBody: emailBody,
-          name: 'Your Company Name'
+          from: aliasToUse,
+          name: "Arc Browser inc.",
         });
 
         openTrackingCell.setValue("Sent");
         lastSentCell.setValue(new Date());
-        Logger.log("Email sent successfully to: " + email);
+
+        openAmountCell.setValue("");
+
+        Logger.log(
+          "Email sent successfully to: " + email + " from: " + aliasToUse
+        );
       } catch (error) {
         Logger.log("Error sending email to " + email + ": " + error.message);
         openTrackingCell.setValue("Failed");
       }
     } else {
-      Logger.log("Daily email quota exceeded. Cannot send emails.");
+      Logger.log("Daily quota exceeded.");
       break;
     }
   }
 }
 
 function doGet(e) {
-   /*
+  /*
       - Parameters:
         - e: Object containing the GET request parameters.
       
@@ -60,7 +82,7 @@ function doGet(e) {
       - Description:
         - This function is called when the tracking pixel URL is accessed.
           It updates the email status and open count in the Google Sheet
-  */  
+  */
 
   if (!e || !e.parameter || !e.parameter.email) {
     Logger.log("No parameters found in GET request.");
@@ -68,16 +90,25 @@ function doGet(e) {
   }
 
   var emailToTrack = e.parameter.email;
-  
-  var userAgent = e.parameter['User-Agent'] || 'Unknown';
-  var referer = e.parameter['Referer'] || 'Unknown';
 
-  Logger.log('Request received for email: ' + emailToTrack + ', User-Agent: ' + userAgent + ', Referer: ' + referer);
+  var userAgent = e.parameter["User-Agent"] || "Unknown";
+  var referer = e.parameter["Referer"] || "Unknown";
+
+  Logger.log(
+    "Request received for email: " +
+      emailToTrack +
+      ", User-Agent: " +
+      userAgent +
+      ", Referer: " +
+      referer
+  );
 
   updateEmailStatus(emailToTrack);
 
   var pixel = Utilities.newBlob("", "image/gif").getBytes();
-  return ContentService.createTextOutput(pixel).setMimeType(ContentService.MimeType.GIF);
+  return ContentService.createTextOutput(pixel).setMimeType(
+    ContentService.MimeType.GIF
+  );
 }
 
 function updateEmailStatus(emailToTrack) {
@@ -114,7 +145,11 @@ function updateEmailStatus(emailToTrack) {
       sheet.getRange(i + 1, openTrackingIndex + 1).setValue("Opened");
       sheet.getRange(i + 1, openAmountIndex + 1).setValue(newOpenCount);
 
-      var formattedDate = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "yyyy-MM-dd HH:mm:ss");
+      var formattedDate = Utilities.formatDate(
+        new Date(),
+        Session.getScriptTimeZone(),
+        "yyyy-MM-dd HH:mm:ss"
+      );
       sheet.getRange(i + 1, lastOpenIndex + 1).setValue(formattedDate);
 
       Logger.log("Updated email status and open count for: " + emailToTrack);
