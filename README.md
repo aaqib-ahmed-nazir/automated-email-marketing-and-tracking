@@ -31,9 +31,12 @@ app_script_email_automation/
 
 ## Project Setup
 1. **Clone the Repository**  
+``` bash
    git clone https://github.com/username/repo-name.git  
-   cd repo-name
-
+```
+``` bash
+   cd app_script_email_automation
+```
 2. **Create Environment File (.env)**  
    - Add your OpenAI API key (OPENAI_API_KEY) and other credentials.  
    - Example structure:  
