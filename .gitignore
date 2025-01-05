@@ -3,3 +3,5 @@
 /data
 /.venv
 .DS_Store
+/src/send_email.js
+src/script.py
