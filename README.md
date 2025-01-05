@@ -41,10 +41,14 @@ app_script_email_automation/
    cd app_script_email_automation
 ```
 2. **Create Environment File (.env)**  
-   - Add your OpenAI API key (OPENAI_API_KEY) and other credentials.  
-   - Example structure:  
-     OPENAI_API_KEY=your_key_here  
-     SHEET_API_KEY=your_sheet_key_here  
+   - Add your OpenAI API key and other credentials.  
+   - Copy and paste the following into your `.env` file, replacing the placeholder values with your actual keys:
+
+   ```env
+   OPENAI_API_KEY=your_key_here
+   SHEET_API_KEY=your_sheet_key_here
+   ```
+```
 
 3. **Install Dependencies**  
    - In local Python projects, run:  
