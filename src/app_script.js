@@ -15,7 +15,7 @@ function sendEmails() {
   var sheet = SpreadsheetApp.openById(id).getActiveSheet();
   var data = sheet.getDataRange().getValues();
 
-  var aliases = GmailApp.getAliases(); // Get all aliases
+  var aliases = GmailApp.getAliases(); 
   if (aliases.length === 0) {
     Logger.log("No aliases available.");
     return;
