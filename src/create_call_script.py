@@ -9,16 +9,13 @@ load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 set_api_key_env("OPENAI_API_KEY", openai_api_key)
 
-# Initialize the language model
 llm = ChatOpenAI(model="gpt-4o")
 
-# Define a simple call script prompt template
 call_script_prompt_template = ChatPromptTemplate([
     ("system", "You are a professional sales assistant. Generate **only a short opening line** for a cold sales call that grabs the user's attention and sets a positive tone. Keep it to 3-4 lines max."),
     ("user", "Here is the email content: {email_content}. Generate a persuasive and concise call script for the sales representative.")
 ])
 
-# Create an agent by combining the prompt and model
 call_script_agent = call_script_prompt_template | llm
 
 def generate_call_script(email_content: str) -> str:
