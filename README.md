@@ -1,7 +1,7 @@
 # Google Apps Script Email Automation
 
 ## Demo Video
-![demo](https://github.com/user-attachments/assets/807ab696-cf82-4dec-a2b3-dbbbfa9f3299)
+https://github.com/user-attachments/assets/74bcf609-1499-41e9-b3cb-a3f01ba4bc1a
 
 ## Repository Structure
 ```text
