@@ -48,7 +48,6 @@ app_script_email_automation/
    OPENAI_API_KEY=your_key_here
    SHEET_API_KEY=your_sheet_key_here
    ```
-```
 
 3. **Install Dependencies**  
    - In local Python projects, run:  
