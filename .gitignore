@@ -2,3 +2,4 @@
 /src/credentials.json
 /data
 /.venv
+.DS_Store
