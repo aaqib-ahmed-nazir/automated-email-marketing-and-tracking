@@ -1,4 +1,4 @@
-# Google Apps Script Email Automation
+# Email Automation using Google Apps Script & Call Script Generation
 
 ## Demo Video
 https://github.com/user-attachments/assets/74bcf609-1499-41e9-b3cb-a3f01ba4bc1a
