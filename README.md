@@ -35,7 +35,7 @@ app_script_email_automation/
 ## Project Setup
 1. **Clone the Repository**  
 ``` bash
-   git clone https://github.com/username/repo-name.git  
+https://github.com/aaqib-ahmed-nazir/app_script_email_automation.git
 ```
 ``` bash
    cd app_script_email_automation
