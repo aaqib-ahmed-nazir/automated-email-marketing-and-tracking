@@ -74,4 +74,4 @@ https://github.com/aaqib-ahmed-nazir/email_automation_with_call_script_generatio
 - [OpenAI GPT-4.0](https://openai.com/product/gpt-4)
 
 ## License
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). 
