@@ -10,12 +10,13 @@ function sendEmails() {
           - Send emails to the recipients in the Google Sheet.
           - Rotate through the aliases to send emails.
           - Update the status of the email in the Google Sheet.
+          - Stop processing if an empty row is found.
   */
   var id = SpreadsheetApp.getActiveSpreadsheet().getId();
   var sheet = SpreadsheetApp.openById(id).getActiveSheet();
   var data = sheet.getDataRange().getValues();
 
-  var aliases = GmailApp.getAliases(); 
+  var aliases = GmailApp.getAliases(); // Get all aliases
   if (aliases.length === 0) {
     Logger.log("No aliases available.");
     return;
@@ -28,6 +29,13 @@ function sendEmails() {
     var email = row[0];
     var subject = row[1];
     var emailContent = row[2];
+
+    // Stop the loop if required data is missing
+    if (!email || !subject || !emailContent) {
+      Logger.log("Stopping process due to missing data at row: " + (i + 1));
+      break;
+    }
+
     var openTrackingCell = sheet.getRange(i + 1, 5); // Open Email Tracking
     var lastSentCell = sheet.getRange(i + 1, 4);     // Last Sent
     var openAmountCell = sheet.getRange(i + 1, 7);   // Open Amount Column
@@ -36,17 +44,18 @@ function sendEmails() {
     // Rotate through aliases
     var aliasToUse = aliases[i % aliasCount];
 
-    var trackingPixelUrl = "https://script.google.com/macros/s/AKfycbzdO2x6sX_gdQ2bEkIDlKQzdX9Z4LvNbLg-qCZsT_pG1GIyj7oht3Ow0LYIlcw-TJZL/exec?email=" + encodeURIComponent(email);
+    // Simplified tracking pixel URL with proper encoding
+    var trackingPixelUrl = `https://script.google.com/macros/s/AKfycbzdO2x6sX_gdQ2bEkIDlKQzdX9Z4LvNbLg-qCZsT_pG1GIyj7oht3Ow0LYIlcw-TJZL/exec?email=${encodeURIComponent(email)}`;
 
     var emailBody = emailContent + 
-      `<br><img class="ajT" src="${trackingPixelUrl}" width="1" height="1" style="display:none;">`;
+      `<img src="${trackingPixelUrl}" width="1" height="1" style="opacity:0; visibility:hidden;">`;
 
     if (MailApp.getRemainingDailyQuota() > 0) {
       try {
         GmailApp.sendEmail(email, subject, '', {
           htmlBody: emailBody,
           from: aliasToUse,  
-          name: 'Arc Browser inc.'
+          name: 'Vigilant Software'
         });
 
         // Set the initial status as "Sent"
@@ -59,6 +68,9 @@ function sendEmails() {
         openAmountCell.setValue(""); 
 
         Logger.log("Email sent successfully to: " + email + " from: " + aliasToUse);
+        
+        // Wait for 2 seconds before sending the next email (in milliseconds)
+        Utilities.sleep(2000); 
       } catch (error) {
         Logger.log("Error sending email to " + email + ": " + error.message);
         openTrackingCell.setValue("Failed");
@@ -87,7 +99,7 @@ function doGet(e) {
     return ContentService.createTextOutput("Error: Missing parameters.");
   }
 
-  var emailToTrack = e.parameter.email;
+  var emailToTrack = decodeURIComponent(e.parameter.email);  // Proper decoding
 
   var userAgent = e.parameter['User-Agent'] || 'Unknown';
   var referer = e.parameter['Referer'] || 'Unknown';
@@ -126,8 +138,12 @@ function doGet(e) {
     }
   }
 
-  var pixel = Utilities.newBlob("", "image/gif").getBytes();
-  return ContentService.createTextOutput(pixel).setMimeType(ContentService.MimeType.GIF);
+  // Return a valid 1x1 transparent GIF pixel
+  var pixel = Utilities.newBlob(
+    '\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x80\x00\x00\xFF\xFF\xFF\xFF\xFF\xFF\x21\xF9\x04\x01\x00\x00\x00\x00\x2C\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02\x4C\x01\x00\x3B',
+    'image/gif'
+  );
+  return ContentService.createBinaryOutput(pixel).setMimeType(ContentService.MimeType.GIF);
 }
 
 function updateEmailStatus(emailToTrack) {
@@ -146,10 +162,8 @@ function updateEmailStatus(emailToTrack) {
   var sheet = SpreadsheetApp.openById(id).getActiveSheet();
   var data = sheet.getDataRange().getValues();
 
-  var headers = data[0];
   var emailIndex = 0;
   var openTrackingIndex = 4;
-  var lastSentIndex = 3;
   var openAmountIndex = 6;
   var lastOpenIndex = 5;
 
@@ -158,7 +172,7 @@ function updateEmailStatus(emailToTrack) {
     var email = row[emailIndex];
 
     if (email === emailToTrack) {
-      var currentOpenCount = row[openAmountIndex] || 0;
+      var currentOpenCount = parseInt(row[openAmountIndex]) || 0;
       var newOpenCount = currentOpenCount + 1;
 
       sheet.getRange(i + 1, openTrackingIndex + 1).setValue("Opened");
