@@ -1,0 +1,2 @@
+email_google_sheet = "16pUY4X33SWesKGWUrCTLJ7h7CteHOLqW9W1oxXv_vyw"
+call_script_google_sheet = "1dUEOzz5gd10LcUZOYfuo3etQrNlyhp5mJQU4rDIBTIo"
