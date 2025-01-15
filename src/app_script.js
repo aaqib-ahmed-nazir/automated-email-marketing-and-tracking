@@ -44,8 +44,7 @@ function sendEmails() {
     // Rotate through aliases
     var aliasToUse = aliases[i % aliasCount];
 
-    // Simplified tracking pixel URL with proper encoding
-    var trackingPixelUrl = `https://script.google.com/macros/s/AKfycbzdO2x6sX_gdQ2bEkIDlKQzdX9Z4LvNbLg-qCZsT_pG1GIyj7oht3Ow0LYIlcw-TJZL/exec?email=${encodeURIComponent(email)}`;
+    var trackingPixelUrl = `[Your app script deploved web app link]?email=${encodeURIComponent(email)}`;
 
     var emailBody = emailContent + 
       `<img src="${trackingPixelUrl}" width="1" height="1" style="opacity:0; visibility:hidden;">`;
