@@ -4,9 +4,14 @@ from agent import email_agent, retriever
 
 def create_email():
     """
-    Generates personalized emails based on `prospects.csv`.
-    If the domain matches a Zoho CRM email, generates a personalized email.
-    Otherwise, generates a generic marketing email.
+        - Parameters: 
+            - None
+        
+        - Returns: 
+            - DataFrame
+        
+        - Description:  
+            This function generates personalized email templates for each prospect in the prospects.csv file.
     """
     # Load the prospects CSV
     prospects = pd.read_csv("data/prospects.csv")

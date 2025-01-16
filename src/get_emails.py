@@ -4,21 +4,26 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import os
-from config import email_google_sheet
+from config import email_google_sheet, CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, ZOHO_API_BASE_URL, TOKEN_URL
 from create_email import create_email
-
-# Constants for Zoho API
-CLIENT_ID = "1000.EX3EA1HGIBN8NGIUH5LCN5T3DHOL3F"
-CLIENT_SECRET = "8b5111a7a9f8faabdd5f131b18d7eb243eee98d675"
-REFRESH_TOKEN = "1000.e8299e9c3692ee87a8aa84f30c1c4378.d44eee738e19d70be38bc9bb072682d0"
-ZOHO_API_BASE_URL = "https://www.zohoapis.com/crm/v2"
-TOKEN_URL = "https://accounts.zoho.com/oauth/v2/token"
 
 # Constants for Google Sheets
 SPREADSHEET_ID = email_google_sheet
-SERVICE_ACCOUNT_FILE = '/home/fox/ai/src/credentials.json'
+SERVICE_ACCOUNT_FILE = 'credentials.json'
 
 def get_access_token(client_id, client_secret, refresh_token):
+    """
+        - Parameters:
+            - client_id: str
+            - client_secret: str
+            - refresh_token: str
+            
+        - Returns:
+            - str: access_token
+            
+        - Description:
+            - Fetches the access token from Zoho CRM using the client_id, client_secret, and refresh_token.
+    """
     payload = {
         "refresh_token": refresh_token,
         "client_id": client_id,
@@ -31,12 +36,29 @@ def get_access_token(client_id, client_secret, refresh_token):
     return response.json().get("access_token")
 
 def fetch_emails_from_zoho(access_token):
+    """
+        - Parameters:
+            - access_token: str
+            
+        - Returns:
+            - list: zoho_emails
+            
+        - Description:
+            - Fetches the emails from Zoho CRM using the access_token.
+    """
     headers = {"Authorization": f"Zoho-oauthtoken {access_token}"}
     response = requests.get(f"{ZOHO_API_BASE_URL}/Leads", headers=headers)
     response.raise_for_status()
     return [record.get("Email") for record in response.json().get("data", []) if record.get("Email")]
 
 def upload_to_google_sheets(data):
+    """
+        - Parameters:
+            - data: list
+            
+        - Description:
+            - Uploads the data to Google Sheets.
+    """
     credentials = service_account.Credentials.from_service_account_file(
         SERVICE_ACCOUNT_FILE, scopes=["https://www.googleapis.com/auth/spreadsheets"]
     )
@@ -54,6 +76,10 @@ def upload_to_google_sheets(data):
     ).execute()
 
 def main():
+    """
+    Main function to authenticate with Zoho CRM, fetch emails, save emails to 
+    CSV file, generate emails, and upload emails to Google Sheets.
+    """
     print("Authenticating with Zoho CRM...")
     access_token = get_access_token(CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN)
 

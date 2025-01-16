@@ -54,7 +54,7 @@ function sendEmails() {
         GmailApp.sendEmail(email, subject, '', {
           htmlBody: emailBody,
           from: aliasToUse,  
-          name: 'Vigilant Software'
+          name: 'Company name'
         });
 
         // Set the initial status as "Sent"

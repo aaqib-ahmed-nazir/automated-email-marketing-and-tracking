@@ -1,2 +1,7 @@
 email_google_sheet = "16pUY4X33SWesKGWUrCTLJ7h7CteHOLqW9W1oxXv_vyw"
 call_script_google_sheet = "1dUEOzz5gd10LcUZOYfuo3etQrNlyhp5mJQU4rDIBTIo"
+CLIENT_ID = "1000.EX3EA1HGIBN8NGIUH5LCN5T3DHOL3F"
+CLIENT_SECRET = "8b5111a7a9f8faabdd5f131b18d7eb243eee98d675"
+REFRESH_TOKEN = "1000.e8299e9c3692ee87a8aa84f30c1c4378.d44eee738e19d70be38bc9bb072682d0"
+ZOHO_API_BASE_URL = "https://www.zohoapis.com/crm/v2"
+TOKEN_URL = "https://accounts.zoho.com/oauth/v2/token"
