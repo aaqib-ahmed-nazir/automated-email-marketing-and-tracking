@@ -3,7 +3,7 @@
 ## Flow Diagram
 ![System Flow Diagram](docs/diagram.png)
 
-## Demo Video
+## Demo Video For Email Tracking
 https://github.com/user-attachments/assets/74bcf609-1499-41e9-b3cb-a3f01ba4bc1a
 
 ## Repository Structure
