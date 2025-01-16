@@ -40,10 +40,10 @@ app_script_email_automation/
 ## Project Setup
 1. **Clone the Repository**  
 ``` bash
-https://github.com/aaqib-ahmed-nazir/email_automation_with_call_script_generation.git
+https://github.com/aaqib-ahmed-nazir/automated-email-marketing-and-tracking.git
 ```
 ``` bash
-   cd app_script_email_automation
+   cd automated-email-marketing-and-tracking
 ```
 2. **Create Environment File (.env)**  
    - Add your OpenAI API key and other credentials.  
