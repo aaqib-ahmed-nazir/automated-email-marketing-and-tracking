@@ -16,7 +16,7 @@ app_script_email_automation/
     ├── credentials.json              (Credentials for external services)
     ├── get_emails.py                 (Fetches and uploads email data to Sheets)
     ├── clean_and_gen_call_script.py  (Cleans data & triggers call script creation)
-    └── helpers/
+    └── functions/
         ├── agent.py                 (AI-related logic)
         ├── config.py                (Configuration & constants)
         ├── create_call_script.py    (Generates call scripts)
