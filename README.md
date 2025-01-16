@@ -1,4 +1,4 @@
-# Email Automation using Google Apps Script & Call Script Generation
+# Automated Email Marketing, Tracking, and Call Script Generation with Google Apps Script
 
 ## Flow Diagram
 ![System Flow Diagram](docs/diagram.png)
