@@ -2,7 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 import os
 from dotenv import load_dotenv
-from utils import set_api_key_env
+from helpers.utils import set_api_key_env
 
 # Load environment variables and API keys
 load_dotenv()

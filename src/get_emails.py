@@ -4,8 +4,8 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import os
-from config import email_google_sheet, CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, ZOHO_API_BASE_URL, TOKEN_URL
-from create_email import create_email
+from helpers.config import email_google_sheet, CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, ZOHO_API_BASE_URL, TOKEN_URL
+from helpers.create_email import create_email
 
 # Constants for Google Sheets
 SPREADSHEET_ID = email_google_sheet

@@ -3,7 +3,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 from create_call_script import generate_call_script
 import requests
 import json
-from config import email_google_sheet, call_script_google_sheet, CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, ZOHO_API_BASE_URL, TOKEN_URL
+from helpers.config import email_google_sheet, call_script_google_sheet, CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, ZOHO_API_BASE_URL, TOKEN_URL
 
 def get_access_token(client_id, client_secret, refresh_token):
     """

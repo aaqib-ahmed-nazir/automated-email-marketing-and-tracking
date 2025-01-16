@@ -1,6 +1,6 @@
 import pandas as pd
 import time
-from agent import email_agent, retriever
+from helpers.agent import email_agent, retriever
 
 def create_email():
     """
