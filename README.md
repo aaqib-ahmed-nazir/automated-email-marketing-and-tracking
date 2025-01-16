@@ -1,5 +1,8 @@
 # Email Automation using Google Apps Script & Call Script Generation
 
+## Flow Diagram
+Refer to the system flow diagram in [docs/diagram.png] for an overview.
+
 ## Demo Video
 https://github.com/user-attachments/assets/74bcf609-1499-41e9-b3cb-a3f01ba4bc1a
 
@@ -72,6 +75,9 @@ https://github.com/aaqib-ahmed-nazir/email_automation_with_call_script_generatio
 - [Google Apps Script Overview](https://developers.google.com/apps-script)
 - [Google Sheets](https://www.google.com/sheets/about/)
 - [OpenAI GPT-4.0](https://openai.com/product/gpt-4)
+
+## Contributors
+Thanks to [Name1], [Name2], and [Name3] for their contributions!
 
 ## License
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).

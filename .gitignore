@@ -6,3 +6,4 @@
 /src/send_email.js
 src/script.py
 src/update.py
+.env
