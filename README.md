@@ -10,7 +10,7 @@ https://github.com/user-attachments/assets/74bcf609-1499-41e9-b3cb-a3f01ba4bc1a
 ```text
 app_script_email_automation/
 ├── README.md
-├── .venv/ (Python virtual environment)
+├── requirements.txt
 └── src/
     ├── app_script.js                 (Main Apps Script code)
     ├── credentials.json              (Credentials for external services)
