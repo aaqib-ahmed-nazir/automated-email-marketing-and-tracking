@@ -1,7 +1,7 @@
 # Email Automation using Google Apps Script & Call Script Generation
 
 ## Flow Diagram
-Refer to the system flow diagram in [docs/diagram.png] for an overview.
+![System Flow Diagram](docs/diagram.png)
 
 ## Demo Video
 https://github.com/user-attachments/assets/74bcf609-1499-41e9-b3cb-a3f01ba4bc1a
