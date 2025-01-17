@@ -7,3 +7,4 @@
 src/script.py
 src/update.py
 .env
+src/functions/config.py
